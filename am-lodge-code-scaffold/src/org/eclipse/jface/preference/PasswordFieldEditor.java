@@ -1,4 +1,4 @@
-package am.lodge.code.scaffold.preferences;
+package org.eclipse.jface.preference;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.FieldEditor;
