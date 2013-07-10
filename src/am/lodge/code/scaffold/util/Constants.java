@@ -7,6 +7,8 @@ public final class Constants{
 
   public final static String SOURCE = "source";
 
+  public final static String CUSTOM = "custom.properties";
+
   public final static String PAGE = "page";
 
   public final static String TABLE = "table";

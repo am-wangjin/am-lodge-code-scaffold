@@ -1,8 +1,15 @@
 package am.lodge.code.scaffold.wizards;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.DatabaseMetaData;
+import java.util.Enumeration;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -69,6 +76,7 @@ public class CodeScaffoldNewWizard extends Wizard implements INewWizard{
     final Map<String, Object> data = two.getData();
     try{
       doFinish(data);
+      
     }catch (Exception e){
       MessageDialog.openError(getShell(), "Error", e.getMessage());
       throw new RuntimeException(e);
@@ -95,6 +103,17 @@ public class CodeScaffoldNewWizard extends Wizard implements INewWizard{
     String pagePath = Activator.getDefault().getPreferenceStore().getString("pagePath");
     outRoot = project.getFolder(new Path(pagePath));
     sourchPath = templatePath + separator + Constants.PAGE;
+
+    String parameters = templatePath + separator + Constants.CUSTOM;
+    Properties pros = new Properties();
+    try {
+      pros.load(new FileInputStream(parameters));
+      Set<Entry<Object, Object>> set = pros.entrySet();
+      for(Entry e : set){
+        data.put((String)e.getKey(), e.getValue());
+      }
+    } catch (IOException e) {
+    }
     stirrer = new CodeStirrer(data, new File(sourchPath), outRoot, (String)data.get(Constants.PAGE_PATH), getShell());
     stirrer.create();
   }
