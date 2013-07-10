@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension point="org.eclipse.ui.preferencePages">
+    <page name="Code Scaffold"
+          class="am.lodge.code.scaffold.preferences.PreferencePage"
+          id="am.lodge.code.scaffold.preferences.PreferencePage" />
+  </extension>
+
+  <extension point="org.eclipse.ui.newWizards">
+    <category name="Code Scaffold Wizard"
+              id="am.lodge.code.scaffold" />
+
+    <wizard name="New Code Scaffold"
+            icon="icons/sample.gif"
+            category="am.lodge.code.scaffold"
+            class="am.lodge.code.scaffold.wizards.CodeScaffoldNewWizard"
+            id="am.lodge.code.scaffold.wizards.CodeScaffoldNewWizard"/>
+  </extension>
+
+  <extension point="org.eclipse.core.runtime.preferences">
+     <initializer class="am.lodge.code.scaffold.preferences.PreferenceInitializer" />
+  </extension>
+</plugin>
