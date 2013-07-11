@@ -107,7 +107,7 @@ public class CodeScaffoldNewWizard extends Wizard implements INewWizard{
     try {
       pros.load(new FileInputStream(parameters));
       Set<Entry<Object, Object>> set = pros.entrySet();
-      for(Entry e : set){
+      for(Entry<Object, Object> e : set){
         data.put((String)e.getKey(), e.getValue());
       }
     } catch (IOException e) {
