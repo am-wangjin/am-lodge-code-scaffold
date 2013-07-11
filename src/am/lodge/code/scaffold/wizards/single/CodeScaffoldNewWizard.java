@@ -1,4 +1,4 @@
-package am.lodge.code.scaffold.wizards;
+package am.lodge.code.scaffold.wizards.single;
 
 import java.io.File;
 import java.io.FileInputStream;

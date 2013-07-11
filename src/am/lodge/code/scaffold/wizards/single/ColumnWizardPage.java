@@ -1,4 +1,4 @@
-package am.lodge.code.scaffold.wizards;
+package am.lodge.code.scaffold.wizards.single;
 
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
