@@ -2,10 +2,8 @@ package am.lodge.code.scaffold.wizards.single;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.DatabaseMetaData;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
