@@ -19,7 +19,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import am.lodge.code.scaffold.database.Table;
-import am.lodge.code.scaffold.util.Constants;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -98,9 +97,21 @@ public class CodeStirrer{
     if(StringUtils.equals(suffix, "ftl")){
       Template temp = config.getTemplate(file.getName());
       String fileName = StringUtils.removeEnd(file.getName(), ".ftl");
+      String begin = StringUtils.substringBefore(fileName, "[");
+      String end = StringUtils.substringAfter(fileName, "]");
+      String key = StringUtils.substringAfter(fileName, "[");
+      key = StringUtils.substringBefore(key, "]");
+
       if(StringUtils.contains(fileName, "[")){
-        Table table = (Table)data.get(Constants.TABLE);
-        fileName = StringUtils.substringBefore(fileName, "[") + table.getUpperCamelName() + StringUtils.substringAfter(fileName, "]");
+        String v = "";
+        if(data.containsKey(key)){
+          @SuppressWarnings("unchecked")
+          Map<String, Object> map = (Map<String, Object>)data.get(key);
+          v = ((Table)map.get("table")).getUpperCamelName();
+        } else{
+          v = ((Table)data.get("table")).getUpperCamelName();
+        }
+        fileName = begin + v + end;
       }
       IFile outFile = outDir.getFile(new Path(fileName));
       ByteArrayOutputStream out = new ByteArrayOutputStream();

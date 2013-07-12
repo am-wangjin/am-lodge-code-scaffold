@@ -18,8 +18,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -27,12 +25,9 @@ import am.lodge.code.scaffold.database.Column;
 import am.lodge.code.scaffold.database.Table;
 import am.lodge.code.scaffold.util.Constants;
 import am.lodge.code.scaffold.util.TreeUtils;
+import am.lodge.code.scaffold.wizards.BaseNewWizard;
 
 public class ColumnWizardPage extends WizardPage {
-
-  private Text packages;
-
-  private Text pagePath;
 
   private Tree columnTree;
 
@@ -52,38 +47,10 @@ public class ColumnWizardPage extends WizardPage {
   public void createControl(Composite parent){
     Composite body = new Composite(parent, SWT.NONE);
     body.setLayout(new FormLayout());
-    Label label = new Label(body, SWT.RIGHT);
-    label.setText("package:");
+    columnTree = new Tree(body, SWT.CHECK | SWT.BORDER);
     FormData formData = new FormData();
     formData.left = new FormAttachment(0, 0);
     formData.top = new FormAttachment(0, 0);
-    label.setLayoutData(formData);
-
-    packages = new Text(body, SWT.SINGLE | SWT.BORDER);
-    formData = new FormData();
-    formData.left = new FormAttachment(0, 80);
-    formData.top = new FormAttachment(0, 0);
-    formData.right = new FormAttachment(100, -1);
-    packages.setLayoutData(formData);
-
-    label = new Label(body, SWT.RIGHT);
-    label.setText("page path:");
-    formData = new FormData();
-    formData.left = new FormAttachment(0, 0);
-    formData.top = new FormAttachment(packages, 0);
-    label.setLayoutData(formData);
-
-    pagePath = new Text(body, SWT.SINGLE | SWT.BORDER);
-    formData = new FormData();
-    formData.left = new FormAttachment(0, 80);
-    formData.top = new FormAttachment(packages, 1);
-    formData.right = new FormAttachment(100, -1);
-    pagePath.setLayoutData(formData);
-
-    columnTree = new Tree(body, SWT.CHECK | SWT.BORDER);
-    formData = new FormData();
-    formData.left = new FormAttachment(0, 0);
-    formData.top = new FormAttachment(pagePath, 1);
     formData.right = new FormAttachment(100, -1);
     formData.bottom = new FormAttachment(100, -1);
     columnTree.setLayoutData(formData);
@@ -110,7 +77,7 @@ public class ColumnWizardPage extends WizardPage {
   }
 
   public void initColumnTree(){
-    DatabaseMetaData dmd = ((CodeScaffoldNewWizard)getWizard()).getDatabaseMetaData();
+    DatabaseMetaData dmd = ((BaseNewWizard)getWizard()).getDatabaseMetaData();
     try{
       TableWizardPage wizard = (TableWizardPage)getPreviousPage();
       String _schem = wizard.getSelectSchem();
@@ -159,8 +126,6 @@ public class ColumnWizardPage extends WizardPage {
 
   public Map<String, Object> getData(){
     Map<String, Object> result = new HashMap<String, Object>();
-    result.put(Constants.PACKAGE, packages.getText());
-    result.put(Constants.PAGE_PATH, pagePath.getText());
     Set<String> imports = new HashSet<String>();
     result.put(Constants.IMPORTS, imports);
     Table tableData = new Table(removePrefix);

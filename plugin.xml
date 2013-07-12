@@ -14,14 +14,14 @@
     <wizard name="New Single Code Scaffold"
             icon="icons/sample.gif"
             category="am.lodge.code.scaffold"
-            class="am.lodge.code.scaffold.wizards.CodeScaffoldNewWizard"
-            id="am.lodge.code.scaffold.wizards.CodeScaffoldNewWizard"/>
+            class="am.lodge.code.scaffold.wizards.single.CodeScaffoldNewWizard"
+            id="am.lodge.code.scaffold.wizards.single.CodeScaffoldNewWizard"/>
 
     <wizard name="New Master-Detail Code Scaffold"
             icon="icons/sample.gif"
             category="am.lodge.code.scaffold"
-            class="am.lodge.code.scaffold.wizards.CodeScaffoldNewWizard"
-            id="am.lodge.code.scaffold.wizards.CodeScaffoldNewWizard"/>
+            class="am.lodge.code.scaffold.wizards.masterdetail.CodeScaffoldNewWizard"
+            id="am.lodge.code.scaffold.wizards.masterdetail.CodeScaffoldNewWizard"/>
   </extension>
 
   <extension point="org.eclipse.core.runtime.preferences">

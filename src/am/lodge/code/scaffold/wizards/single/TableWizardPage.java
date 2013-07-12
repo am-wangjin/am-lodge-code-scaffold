@@ -18,6 +18,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import am.lodge.code.scaffold.wizards.BaseNewWizard;
+
 public class TableWizardPage extends WizardPage{
 
   private Button removePrefix;
@@ -83,7 +85,7 @@ public class TableWizardPage extends WizardPage{
   }
 
   private void initTableTree(){
-    DatabaseMetaData dmd = ((CodeScaffoldNewWizard)getWizard()).getDatabaseMetaData();
+    DatabaseMetaData dmd = ((BaseNewWizard)getWizard()).getDatabaseMetaData();
     try{
       String databaseName = dmd.getDatabaseProductName();
       TreeItem root = new TreeItem(tableTree, SWT.NONE);
