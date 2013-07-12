@@ -3,8 +3,6 @@ package am.lodge.code.scaffold.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import am.lodge.code.scaffold.util.CamelCaseUtils;
 
 public class Table extends BaseModel{
@@ -15,11 +13,7 @@ public class Table extends BaseModel{
 
   private List<Column> selectColumns = new ArrayList<Column>();
 
-  private boolean removePrefix;
-
-  public Table(boolean removePrefix){
-    this.removePrefix = removePrefix;
-  }
+  private String aliasName;
 
   public List<Column> getPrimaryKeys(){
     return primaryKeys;
@@ -38,19 +32,11 @@ public class Table extends BaseModel{
   }
 
   public String getLowerCamelName(){
-    String name = getName();
-    if(removePrefix){
-      name = StringUtils.substringAfter(name, "_");
-    }
-    return CamelCaseUtils.toLowerCamelCase(name);
+    return CamelCaseUtils.toLowerCamelCase(getAliasName());
   }
 
   public String getUpperCamelName(){
-    String name = getName();
-    if(removePrefix){
-      name = StringUtils.substringAfter(name, "_");
-    }
-    return CamelCaseUtils.toUpperCamelCase(name);
+    return CamelCaseUtils.toUpperCamelCase(getAliasName());
   }
 
   public List<Column> getSelectColumns(){
@@ -59,5 +45,13 @@ public class Table extends BaseModel{
 
   public void setSelectColumns(List<Column> selectColumns){
     this.selectColumns = selectColumns;
+  }
+
+  public String getAliasName() {
+    return aliasName;
+  }
+
+  public void setAliasName(String aliasName) {
+    this.aliasName = aliasName;
   }
 }

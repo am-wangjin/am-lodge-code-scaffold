@@ -33,7 +33,7 @@ public class ColumnWizardPage extends WizardPage {
 
   private String table;
 
-  private boolean removePrefix;
+  private String aliasName;
 
   private String schem;
 
@@ -70,10 +70,6 @@ public class ColumnWizardPage extends WizardPage {
       }
     });
     setControl(body);
-  }
-
-  public void setRemovePrefix(boolean removePrefix){
-    this.removePrefix = removePrefix;
   }
 
   public void initColumnTree(){
@@ -128,9 +124,10 @@ public class ColumnWizardPage extends WizardPage {
     Map<String, Object> result = new HashMap<String, Object>();
     Set<String> imports = new HashSet<String>();
     result.put(Constants.IMPORTS, imports);
-    Table tableData = new Table(removePrefix);
+    Table tableData = new Table();
     result.put(Constants.TABLE, tableData);
     tableData.setName(table);
+    tableData.setAliasName(aliasName);
 
     TreeItem[] items = columnTree.getItems()[0].getItems();
     for(TreeItem item: items){
@@ -154,5 +151,9 @@ public class ColumnWizardPage extends WizardPage {
       }
     }
     return result;
+  }
+
+  public void setAliasName(String aliasName) {
+    this.aliasName = aliasName;
   }
 }

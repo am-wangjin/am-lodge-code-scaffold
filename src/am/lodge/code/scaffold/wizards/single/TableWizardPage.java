@@ -20,9 +20,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
@@ -31,7 +31,7 @@ import am.lodge.code.scaffold.wizards.BaseNewWizard;
 
 public class TableWizardPage extends WizardPage{
 
-  private Button removePrefix;
+  private Text aliasName;
 
   private FilteredTree tableTree;
 
@@ -56,20 +56,20 @@ public class TableWizardPage extends WizardPage{
     formData.left = new FormAttachment(0, 0);
     formData.top = new FormAttachment(0, 0);
     Label label = new Label(body, SWT.RIGHT);
-    label.setText("remove prefix:");
+    label.setText("alias name:");
     label.setLayoutData(formData);
 
-    removePrefix = new Button(body, SWT.CHECK);
-    removePrefix.setSelection(true);
+    aliasName = new Text(body, SWT.SINGLE | SWT.BORDER);
     formData = new FormData();
     formData.left = new FormAttachment(label, 5);
+    formData.right = new FormAttachment(100, -1);
     formData.top = new FormAttachment(0, 0);
-    removePrefix.setLayoutData(formData);
+    aliasName.setLayoutData(formData);
 
     tableTree = new FilteredTree(body, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE, new PatternFilter(), true);
     formData = new FormData();
     formData.left = new FormAttachment(0, 0);
-    formData.top = new FormAttachment(removePrefix, 5);
+    formData.top = new FormAttachment(aliasName, 5);
     formData.right = new FormAttachment(100, -1);
     formData.bottom = new FormAttachment(100, -1);
     tableTree.setLayoutData(formData);
@@ -88,6 +88,7 @@ public class TableWizardPage extends WizardPage{
           Map<String, String> date = (Map<String, String>) treeNode.getValue();
           selectTable = date.get("tableName");
           selectSchem = date.get("schem");
+          aliasName.setText(selectTable);
         }
         if(chahe != enableNext){
           canFlipToNextPage();
@@ -162,7 +163,7 @@ public class TableWizardPage extends WizardPage{
   public IWizardPage getNextPage(){
     ColumnWizardPage wizard = (ColumnWizardPage)super.getNextPage();
     wizard.initColumnTree();
-    wizard.setRemovePrefix(removePrefix.getSelection());
+    wizard.setAliasName(aliasName.getText());
     return wizard;
   }
 
