@@ -58,16 +58,10 @@ public abstract class BaseNewWizard extends Wizard implements INewWizard{
       IJavaElement javaElement = (IJavaElement) selection.getFirstElement();
       project = javaElement.getResource().getProject();
     }
+
     String soundCodePath = Activator.getDefault().getPreferenceStore().getString("soundCodePath");
     IContainer outRoot = project.getFolder(new Path(soundCodePath));
     String templatePath = Activator.getDefault().getPreferenceStore().getString("templatePath");
-    String sourchPath = templatePath + separator + Constants.SOURCE;
-    CodeStirrer stirrer = new CodeStirrer(data, new File(sourchPath), outRoot, (String)data.get(Constants.PACKAGE), getShell());
-    stirrer.create();
-
-    String pagePath = Activator.getDefault().getPreferenceStore().getString("pagePath");
-    outRoot = project.getFolder(new Path(pagePath));
-    sourchPath = templatePath + separator + Constants.PAGE;
 
     String parameters = templatePath + separator + Constants.CUSTOM;
     Properties pros = new Properties();
@@ -79,6 +73,14 @@ public abstract class BaseNewWizard extends Wizard implements INewWizard{
       }
     } catch (IOException e) {
     }
+
+    String sourchPath = templatePath + separator + Constants.SOURCE;
+    CodeStirrer stirrer = new CodeStirrer(data, new File(sourchPath), outRoot, (String)data.get(Constants.PACKAGE), getShell());
+    stirrer.create();
+
+    String pagePath = Activator.getDefault().getPreferenceStore().getString("pagePath");
+    outRoot = project.getFolder(new Path(pagePath));
+    sourchPath = templatePath + separator + Constants.PAGE;
     stirrer = new CodeStirrer(data, new File(sourchPath), outRoot, (String)data.get(Constants.PAGE_PATH), getShell());
     stirrer.create();
   }
