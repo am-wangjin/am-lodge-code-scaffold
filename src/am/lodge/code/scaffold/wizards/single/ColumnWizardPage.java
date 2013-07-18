@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,9 +34,9 @@ public class ColumnWizardPage extends WizardPage {
 
   private String table;
 
-  private String aliasName;
-
   private String schem;
+
+  private boolean update = false;
 
   public ColumnWizardPage(String title){
     super(title);
@@ -72,7 +73,7 @@ public class ColumnWizardPage extends WizardPage {
     setControl(body);
   }
 
-  public void initColumnTree(){
+  public void updateColumnTree(){
     DatabaseMetaData dmd = ((BaseNewWizard)getWizard()).getDatabaseMetaData();
     try{
       TableWizardPage wizard = (TableWizardPage)getPreviousPage();
@@ -101,9 +102,11 @@ public class ColumnWizardPage extends WizardPage {
         item.setData(Constants.COLUMN_SIZE, rs.getInt("COLUMN_SIZE"));
         item.setData(Constants.DECIMAL_DIGITS, rs.getInt("DECIMAL_DIGITS"));
         item.setData(Constants.NULLABLE, rs.getInt("NULLABLE") == 1);
+        item.setData(Constants.DESC, rs.getString("REMARKS"));
         if(pks.contains(name))
         item.setData("pk", true);
       }
+      update = true;
     }catch (SQLException e){
       throw new RuntimeException(e);
     }
@@ -120,14 +123,15 @@ public class ColumnWizardPage extends WizardPage {
     return itemList;
   }
 
-  public Map<String, Object> getData(){
+  private Map<String, Object> getData(){
     Map<String, Object> result = new HashMap<String, Object>();
     Set<String> imports = new HashSet<String>();
     result.put(Constants.IMPORTS, imports);
     Table tableData = new Table();
     result.put(Constants.TABLE, tableData);
     tableData.setName(table);
-    tableData.setAliasName(aliasName);
+    String tableAliasname = ((TableWizardPage)getPreviousPage()).getAliasTableName();
+    tableData.setAliasName(tableAliasname);
 
     TreeItem[] items = columnTree.getItems()[0].getItems();
     for(TreeItem item: items){
@@ -137,6 +141,7 @@ public class ColumnWizardPage extends WizardPage {
       column.setColumnSize((Integer)item.getData("COLUMN_SIZE"));
       column.setDecimalDigits((Integer)item.getData("DECIMAL_DIGITS"));
       column.setNullable((Boolean)item.getData("DECIMAL_DIGITS"));
+      column.setDesc((String)item.getData(Constants.DESC));
       
       if(item.getData("pk") != null){
         tableData.getPrimaryKeys().add(column);
@@ -153,7 +158,12 @@ public class ColumnWizardPage extends WizardPage {
     return result;
   }
 
-  public void setAliasName(String aliasName) {
-    this.aliasName = aliasName;
+  public IWizardPage getNextPage(){
+    ColumnDescWizardPage wizard = (ColumnDescWizardPage)super.getNextPage();
+    if(update){
+      wizard.updateColumnData(getData());
+      update = false;
+    }
+    return wizard;
   }
 }

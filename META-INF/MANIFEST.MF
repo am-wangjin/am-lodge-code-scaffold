@@ -7,7 +7,8 @@ Bundle-Activator: am.lodge.code.scaffold.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.ui;bundle-version="3.9.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

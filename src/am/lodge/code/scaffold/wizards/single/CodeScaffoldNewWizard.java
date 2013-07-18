@@ -12,6 +12,8 @@ public class CodeScaffoldNewWizard extends BaseNewWizard{
 
   private ColumnWizardPage two;
 
+  private ColumnDescWizardPage three;
+
   private EndWizardPage end;
 
   protected void initWizardPages(){
@@ -19,16 +21,18 @@ public class CodeScaffoldNewWizard extends BaseNewWizard{
     addPage(one);
     two = new ColumnWizardPage("Select Column");
     addPage(two);
+    three = new ColumnDescWizardPage("Set Column Desc");
+    addPage(three);
     end = new EndWizardPage("Set End");
     addPage(end);
   }
 
   @Override
   public boolean performFinish(){
-    boolean result = one.isPageComplete() && two.isPageComplete() & end.isPageComplete();
+    boolean result = one.isPageComplete() && two.isPageComplete() && three.isPageComplete() && end.isPageComplete();
     if(!result)
       return false;
-    final Map<String, Object> data = two.getData();
+    final Map<String, Object> data = three.getData();
     data.putAll(end.getData());
     try{
       doFinish(data);

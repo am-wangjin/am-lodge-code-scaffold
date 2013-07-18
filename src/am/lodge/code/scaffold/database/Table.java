@@ -31,6 +31,13 @@ public class Table extends BaseModel{
     this.columns = columns;
   }
 
+  public List<Column> getAllColumns(){
+    List<Column> result = new ArrayList<Column>();
+    result.addAll(getPrimaryKeys());
+    result.addAll(getColumns());
+    return result;
+  }
+
   public String getLowerCamelName(){
     return CamelCaseUtils.toLowerCamelCase(getAliasName());
   }

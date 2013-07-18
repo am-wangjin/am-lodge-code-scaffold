@@ -1,6 +1,7 @@
 package am.lodge.code.scaffold.database;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 
 import am.lodge.code.scaffold.util.CamelCaseUtils;
 import am.lodge.code.scaffold.util.Constants;
@@ -8,6 +9,8 @@ import am.lodge.code.scaffold.util.Constants;
 public class Column extends BaseModel{
 
   private String sqlType;
+
+  private String desc;
 
   private Integer columnSize;
 
@@ -57,5 +60,14 @@ public class Column extends BaseModel{
 
   public void setColumnSize(Integer columnSize){
     this.columnSize = columnSize;
+  }
+
+  public String getDesc() {
+    if(StringUtils.isBlank(desc)) return getName();
+    return desc;
+  }
+
+  public void setDesc(String desc) {
+    this.desc = desc;
   }
 }

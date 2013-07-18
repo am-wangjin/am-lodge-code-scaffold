@@ -5,43 +5,54 @@ import java.util.Map;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import am.lodge.code.scaffold.wizards.BaseNewWizard;
+import am.lodge.code.scaffold.wizards.single.ColumnDescWizardPage;
 import am.lodge.code.scaffold.wizards.single.ColumnWizardPage;
 import am.lodge.code.scaffold.wizards.single.EndWizardPage;
 import am.lodge.code.scaffold.wizards.single.TableWizardPage;
 
 public class CodeScaffoldNewWizard extends BaseNewWizard{
 
-  private TableWizardPage one;
+  private TableWizardPage masterOne;
 
-  private ColumnWizardPage two;
+  private ColumnWizardPage masterTwo;
 
-  private TableWizardPage three;
+  private ColumnDescWizardPage masterThree;
 
-  private ColumnWizardPage four;
+  private TableWizardPage detailOne;
+
+  private ColumnWizardPage detailTwe;
+
+  private ColumnDescWizardPage detailThree;
 
   private EndWizardPage end;
 
   protected void initWizardPages(){
-    one = new TableWizardPage("select Master Table");
-    addPage(one);
-    two = new ColumnWizardPage("select Master Table Column");
-    addPage(two);
-    three = new TableWizardPage("select Detail Table");
-    addPage(three);
-    four = new ColumnWizardPage("select Detail Table Column");
-    addPage(four);
+    masterOne = new TableWizardPage("select Master Table");
+    addPage(masterOne);
+    masterTwo = new ColumnWizardPage("select Master Table Column");
+    addPage(masterTwo);
+    masterThree = new ColumnDescWizardPage("Set Master Table Column Desc");
+    addPage(masterThree);
+
+    detailOne = new TableWizardPage("select Detail Table");
+    addPage(detailOne);
+    detailTwe = new ColumnWizardPage("select Detail Table Column");
+    addPage(detailTwe);
+    detailThree = new ColumnDescWizardPage("Set Detail Table Column Desc");
+    addPage(detailThree);
+
     end = new EndWizardPage("Set End");
     addPage(end);
   }
 
   @Override
   public boolean performFinish(){
-    boolean result = one.isPageComplete() && two.isPageComplete() && three.isPageComplete() && four.isPageComplete() && end.isPageComplete();
+    boolean result = masterOne.isPageComplete() && masterTwo.isPageComplete() && detailOne.isPageComplete() && detailTwe.isPageComplete() && end.isPageComplete();
     if(!result)
       return false;
     final Map<String, Object> data = end.getData();
-    data.put("master", two.getData());
-    data.put("detail", four.getData());
+    data.put("master", masterThree.getData());
+    data.put("detail", detailThree.getData());
     try{
       doFinish(data);
     }catch (Exception e){

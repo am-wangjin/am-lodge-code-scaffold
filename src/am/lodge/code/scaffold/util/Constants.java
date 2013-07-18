@@ -25,6 +25,8 @@ public final class Constants{
 
   public final static String NULLABLE = "nullable";
 
+  public final static String DESC = "desc";
+
   public final static String TYPE = "type";
 
   public final static String COLUMNS = "columns";

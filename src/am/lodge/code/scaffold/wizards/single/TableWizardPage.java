@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeNode;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
@@ -33,13 +34,13 @@ public class TableWizardPage extends WizardPage{
 
   private Text aliasName;
 
-  private FilteredTree tableTree;
-
   private boolean enableNext;
 
   private String selectSchem;
 
   private String selectTable;
+
+  private String oldSelectTarget;
 
   public TableWizardPage(String title){
     super(title);
@@ -66,7 +67,7 @@ public class TableWizardPage extends WizardPage{
     formData.top = new FormAttachment(0, 0);
     aliasName.setLayoutData(formData);
 
-    tableTree = new FilteredTree(body, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE, new PatternFilter(), true);
+    FilteredTree tableTree = new FilteredTree(body, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE, new PatternFilter(), true);
     formData = new FormData();
     formData.left = new FormAttachment(0, 0);
     formData.top = new FormAttachment(aliasName, 5);
@@ -100,7 +101,7 @@ public class TableWizardPage extends WizardPage{
   }
 
 
-  class TreeViewerLabelProvider extends LabelProvider{
+  static class TreeViewerLabelProvider extends LabelProvider{
     @SuppressWarnings("unchecked")
     public String getText(Object obj) {
       TreeNode node = (TreeNode)obj;
@@ -162,9 +163,15 @@ public class TableWizardPage extends WizardPage{
 
   public IWizardPage getNextPage(){
     ColumnWizardPage wizard = (ColumnWizardPage)super.getNextPage();
-    wizard.initColumnTree();
-    wizard.setAliasName(aliasName.getText());
+    if(!StringUtils.equals(oldSelectTarget, selectSchem + "_" + "selectTable")){
+      wizard.updateColumnTree();
+      oldSelectTarget = selectSchem + "_" + "selectTable";
+    }
     return wizard;
+  }
+
+  public String getAliasTableName(){
+    return aliasName.getText();
   }
 
   public String getSelectTable(){
