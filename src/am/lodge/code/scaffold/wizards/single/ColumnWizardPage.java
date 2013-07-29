@@ -138,9 +138,9 @@ public class ColumnWizardPage extends WizardPage {
       Column column = new Column();
       column.setName(item.getText());
       column.setSqlType((String)item.getData(Constants.SQL_TYPE));
-      column.setColumnSize((Integer)item.getData("COLUMN_SIZE"));
-      column.setDecimalDigits((Integer)item.getData("DECIMAL_DIGITS"));
-      column.setNullable((Boolean)item.getData("DECIMAL_DIGITS"));
+      column.setColumnSize((Integer)item.getData(Constants.COLUMN_SIZE));
+      column.setDecimalDigits((Integer)item.getData(Constants.DECIMAL_DIGITS));
+      column.setNullable((Boolean)item.getData(Constants.NULLABLE));
       column.setDesc((String)item.getData(Constants.DESC));
       
       if(item.getData("pk") != null){
